@@ -41,11 +41,13 @@ app.use(async (ctx, next) => {
 // routes
 loadRoutes(app);
 
-const server = http.createServer(app.callback());
-server.listen(3000);
+if (process.env.NODE_ENV !== 'production') {
+  const server = http.createServer(app.callback());
+  server.listen(3000);
+  
+  server.on("listening", async () => {
+    await syncDatabase();
+  });
+}
 
-server.on("listening", async () => {
-  await syncDatabase();
-});
-
-export default app.callback()
+export default app
