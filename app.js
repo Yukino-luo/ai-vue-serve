@@ -47,3 +47,5 @@ server.listen(3000);
 server.on("listening", async () => {
   await syncDatabase();
 });
+
+export default app.callback()
