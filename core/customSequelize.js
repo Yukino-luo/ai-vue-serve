@@ -5,7 +5,7 @@ export const sequelize = new Sequelize(process.env.DATABASE_URL, {
   protocol: 'postgres',
   dialectOptions: {
     ssl: {
-      require: true,
+      require: false,
       rejectUnauthorized: false, // 开发环境可以这样，生产建议使用正式证书
     },
   },
