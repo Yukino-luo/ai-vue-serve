@@ -1,8 +1,10 @@
+import test from './test.js'
 import user from './user.js'
 import common from './common.js'
 import goods from './goods.js'
 
 const routes = {
+  test,
   user,
   common,
   goods
