@@ -3,12 +3,14 @@ import http from "http";
 import json from "koa-json";
 import cors from "@koa/cors";
 import logger from "koa-logger";
+import pg from 'pg';
 import env from "dotenv/config";
 import loadRoutes from "./routes/index.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import responseTime from "./middlewares/responseTime.js";
 import syncDatabase from "./core/syncDatabase.js";
 import { koaBody } from "koa-body";
+global.pg = pg;
 
 const app = new Koa();
 
