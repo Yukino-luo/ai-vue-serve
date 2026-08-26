@@ -22,7 +22,7 @@ class GoodsService extends CustomService {
     createdAtEnd && queryOptions.push({ createdAt: { [Op.lte]: new Date(createdAtEnd) } })
 
     const orderOptions = []
-    if (orders) {
+    if (orders && orders.length) {
       orders.forEach((item) => {
         orderOptions.push([item.column, item.asc ? 'ASC' : 'DESC'])
       })

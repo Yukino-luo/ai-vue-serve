@@ -1,8 +1,9 @@
 import Sequelize from "sequelize";
+import moment from "moment";
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
-  protocol: 'postgres',
+  protocol: "postgres",
   dialectOptions: {
     ssl: false,
   },
@@ -45,6 +46,22 @@ export const defineModel = (name, attributes) => {
     type: Sequelize.STRING,
     allowNull: true,
   };
+  ((attrs.createdAt = {
+    type: Sequelize.DATE,
+    get() {
+      return moment(this.getDataValue("createdAt")).format(
+        "YYYY-MM-DD HH:mm:ss",
+      );
+    },
+  }),
+    (attrs.updatedAt = {
+      type: Sequelize.DATE,
+      get() {
+        return moment(this.getDataValue("updatedAt")).format(
+          "YYYY-MM-DD HH:mm:ss",
+        );
+      },
+    }));
   return sequelize.define(name, attrs, {
     tableName: name,
     timestamps: true,
@@ -64,6 +81,7 @@ export const defineModel = (name, attributes) => {
     },
     defaultScope: {
       attributes: { exclude: ["deletedBy", "deletedAt"] },
+      order: [["updatedAt", "DESC"]],
     },
   });
 };
