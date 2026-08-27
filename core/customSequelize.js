@@ -81,7 +81,6 @@ export const defineModel = (name, attributes) => {
     },
     defaultScope: {
       attributes: { exclude: ["deletedBy", "deletedAt"] },
-      order: [["updatedAt", "DESC"]],
     },
   });
 };

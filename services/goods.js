@@ -11,21 +11,35 @@ class GoodsService extends CustomService {
   }
 
   async getGoods(data) {
-    const { pageNum, pageSize, id, name, currency, status, createdAtStart, createdAtEnd, orders } = data;
+    const {
+      pageNum,
+      pageSize,
+      id,
+      name,
+      currency,
+      status,
+      createdAtStart,
+      createdAtEnd,
+      orders,
+    } = data;
 
     const queryOptions = [];
     id && queryOptions.push({ id: id });
     name && queryOptions.push({ name: { [Op.substring]: `%${name}` } });
     currency && queryOptions.push({ currency: currency });
     (status || status === 0) && queryOptions.push({ status: status });
-    createdAtStart && queryOptions.push({ createdAt: { [Op.gte]: new Date(createdAtStart) } })
-    createdAtEnd && queryOptions.push({ createdAt: { [Op.lte]: new Date(createdAtEnd) } })
+    createdAtStart &&
+      queryOptions.push({ createdAt: { [Op.gte]: new Date(createdAtStart) } });
+    createdAtEnd &&
+      queryOptions.push({ createdAt: { [Op.lte]: new Date(createdAtEnd) } });
 
-    const orderOptions = []
+    const orderOptions = [];
     if (orders && orders.length) {
       orders.forEach((item) => {
-        orderOptions.push([item.column, item.asc ? 'ASC' : 'DESC'])
-      })
+        orderOptions.push([item.column, item.asc ? "ASC" : "DESC"]);
+      });
+    } else {
+      orderOptions.push(["updatedAt", "DESC"]);
     }
 
     return await this.offsetPaginate({
@@ -34,7 +48,7 @@ class GoodsService extends CustomService {
       where: {
         [Op.and]: queryOptions,
       },
-      order: orderOptions
+      order: orderOptions,
     });
   }
 
